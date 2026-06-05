@@ -50,3 +50,12 @@ app.include_router(compliance.router, prefix="/api/compliance",  tags=["Complian
 @app.get("/api/health", tags=["Health"])
 async def health():
     return {"status": "ok", "service": "AI Agent Security Guardian", "version": "4.0.0"}
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
