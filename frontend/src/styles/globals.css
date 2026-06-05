@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── DESIGN TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg: #050a0f;
+  --surface: #0a1520;
+  --surface2: #0f1e2e;
+  --border: #1a3a5c;
+  --accent: #00d4ff;
+  --accent2: #ff4060;
+  --accent3: #00ff9d;
+  --warn: #ffb800;
+  --text: #c8e0f4;
+  --muted: #4a7a9b;
+  --mono: 'Share Tech Mono', monospace;
+  --sans: 'Syne', sans-serif;
+}
+
+/* ── RESET ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── ANIMATED BACKGROUND ───────────────────────────────────────── */
+.grid-bg {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none; z-index: 0;
+}
+
+.scanline {
+  position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scanY 4s linear infinite;
+  opacity: 0.4; z-index: 1; pointer-events: none;
+}
+
+/* ── KEYFRAMES ─────────────────────────────────────────────────── */
+@keyframes scanY   { 0% { top: -3px; } 100% { top: 100vh; } }
+@keyframes pulse   { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+@keyframes fadeIn  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes slideIn { from{opacity:0;transform:translateX(-12px)} to{opacity:1;transform:translateX(0)} }
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes glow    { 0%,100%{box-shadow:0 0 8px rgba(0,212,255,.3)} 50%{box-shadow:0 0 20px rgba(0,212,255,.6)} }
+@keyframes nodeFlow{ 0%,100%{opacity:.5;transform:scale(.97)} 50%{opacity:1;transform:scale(1)} }
+@keyframes blink   { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── UTILITY CLASSES ───────────────────────────────────────────── */
+.fade-in    { animation: fadeIn  0.35s ease forwards; }
+.slide-in   { animation: slideIn 0.35s ease forwards; }
+.glow-pulse { animation: glow    2s ease-in-out infinite; }
+
+/* ── SCROLLBAR ─────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── RISK BADGES ───────────────────────────────────────────────── */
+.rb-critical { background:rgba(255,64,96,.15);  color:var(--accent2); border:1px solid rgba(255,64,96,.3); }
+.rb-high     { background:rgba(255,184,0,.12);  color:var(--warn);    border:1px solid rgba(255,184,0,.3); }
+.rb-medium   { background:rgba(0,212,255,.10);  color:var(--accent);  border:1px solid rgba(0,212,255,.2); }
+.rb-low      { background:rgba(0,255,157,.10);  color:var(--accent3); border:1px solid rgba(0,255,157,.2); }
+
+/* ── DECISION BADGES ───────────────────────────────────────────── */
+.dec-allow { background:rgba(0,255,157,.12); color:var(--accent3); border:1px solid rgba(0,255,157,.3); }
+.dec-warn  { background:rgba(255,184,0,.12); color:var(--warn);    border:1px solid rgba(255,184,0,.3); }
+.dec-block { background:rgba(255,64,96,.12); color:var(--accent2); border:1px solid rgba(255,64,96,.3); }
+
+/* ── LIVE BADGE ────────────────────────────────────────────────── */
+.live-badge {
+  background: rgba(255,64,96,.15); color: var(--accent2);
+  border: 1px solid rgba(255,64,96,.3); border-radius: 3px;
+  padding: 3px 9px; font-family: var(--mono); font-size: 9px;
+  letter-spacing: 1px; display: inline-flex; align-items: center; gap: 5px;
+}
+.live-dot {
+  width: 5px; height: 5px; background: var(--accent2);
+  border-radius: 50%; animation: pulse 1s ease-in-out infinite;
+}
+
+/* ── STATUS PILL ───────────────────────────────────────────────── */
+.status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(0,255,157,.1); border: 1px solid rgba(0,255,157,.25);
+  border-radius: 20px; padding: 4px 10px; font-family: var(--mono);
+  font-size: 9px; color: var(--accent3); letter-spacing: 1px;
+}
+.status-dot { width: 5px; height: 5px; background: var(--accent3); border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; }
+
+/* ── DOT-PULSE ─────────────────────────────────────────────────── */
+.dot-pulse { width: 7px; height: 7px; background: var(--accent3); border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; }
+
+/* ── SPINNER ───────────────────────────────────────────────────── */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(0,212,255,.2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ── TOGGLE ────────────────────────────────────────────────────── */
+.toggle {
+  width: 38px; height: 20px; background: var(--border);
+  border-radius: 20px; position: relative; cursor: pointer; transition: background .2s;
+}
+.toggle.on  { background: var(--accent3); }
+.toggle-knob {
+  width: 16px; height: 16px; background: #fff; border-radius: 50%;
+  position: absolute; top: 2px; left: 2px; transition: transform .2s;
+}
+.toggle.on .toggle-knob { transform: translateX(18px); }
+
+/* ── FLOW NODE ─────────────────────────────────────────────────── */
+.flow-node {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 18px; text-align: center;
+  position: relative; animation: nodeFlow 2s ease-in-out infinite;
+  transition: all .3s;
+}
+.flow-node.active  { border-color: var(--accent);  box-shadow: 0 0 14px rgba(0,212,255,.25); }
+.flow-node.blocked { border-color: var(--accent2); box-shadow: 0 0 14px rgba(255,64,96,.25); }
+.flow-node.allowed { border-color: var(--accent3); box-shadow: 0 0 12px rgba(0,255,157,.2); }
+
+/* ── COMPLIANCE BAR ────────────────────────────────────────────── */
+.compliance-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 5px; }
+.compliance-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+
+/* ── SCORE BAR ─────────────────────────────────────────────────── */
+.score-bar-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.score-bar-fill  { height: 100%; border-radius: 3px; transition: width .8s ease; }
+
+/* ── CHAT MESSAGES ─────────────────────────────────────────────── */
+.chat-msg { max-width: 85%; padding: 10px 14px; border-radius: 8px; font-size: 12px; line-height: 1.7; }
+.chat-user { background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.2); color:var(--text); align-self:flex-end; border-radius:8px 8px 2px 8px; }
+.chat-ai   { background:var(--surface2); border:1px solid var(--border); color:var(--text); align-self:flex-start; border-radius:8px 8px 8px 2px; }
+
+/* ── AGENT NODE ────────────────────────────────────────────────── */
+.agent-node {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; text-align: center;
+  cursor: pointer; transition: all .2s;
+}
+.agent-node:hover    { border-color: rgba(0,212,255,.4); }
+.agent-node.selected { border-color: var(--accent);  box-shadow: 0 0 14px rgba(0,212,255,.2); }
+.agent-node.threat   { border-color: var(--accent2); box-shadow: 0 0 14px rgba(255,64,96,.2); }
+
+/* ── FEED ITEM ─────────────────────────────────────────────────── */
+.feed-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 18px; border-bottom: 1px solid rgba(26,58,92,.5);
+  font-size: 12px; animation: slideIn .4s ease;
+}
+.feed-item:last-child { border-bottom: none; }
+
+/* ── ATTACK BUTTON ─────────────────────────────────────────────── */
+.attack-btn {
+  background: rgba(255,64,96,.06); border: 1px solid rgba(255,64,96,.2);
+  border-radius: 6px; padding: 11px 14px; cursor: pointer; transition: all .15s;
+  font-size: 12px; font-weight: 600; color: var(--text);
+  display: flex; align-items: center; gap: 8px; font-family: var(--sans);
+  width: 100%;
+}
+.attack-btn:hover { background: rgba(255,64,96,.14); border-color: var(--accent2); color: #fff; }
+.attack-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ── LOG ROW ───────────────────────────────────────────────────── */
+.log-row-header {
+  display: grid; gap: 12px; padding: 9px 16px;
+  background: var(--surface2); font-family: var(--mono);
+  font-size: 9px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase;
+}
+.log-row {
+  display: grid; gap: 12px; padding: 10px 16px;
+  border-bottom: 1px solid rgba(26,58,92,.4);
+  font-size: 11px; transition: background .1s;
+}
+.log-row:hover { background: rgba(0,212,255,.03); }
+
+/* ── INCIDENT ROW ──────────────────────────────────────────────── */
+.incident-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 13px 18px; border-bottom: 1px solid rgba(26,58,92,.4);
+  animation: slideIn .4s ease;
+}
+.inc-sev { width: 4px; border-radius: 2px; min-height: 44px; flex-shrink: 0; }
+
+/* ── EXEC KPI ──────────────────────────────────────────────────── */
+.exec-kpi {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.exec-kpi::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+/* ── NOTIFICATION TOAST ────────────────────────────────────────── */
+.notif-toast {
+  position: fixed; right: 24px; top: 64px; width: 310px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px; z-index: 9999;
+  animation: slideIn .3s ease; box-shadow: 0 8px 32px rgba(0,0,0,.5);
+}
+.notif-toast.threat { border-left: 3px solid var(--accent2); }
+.notif-toast.safe   { border-left: 3px solid var(--accent3); }
